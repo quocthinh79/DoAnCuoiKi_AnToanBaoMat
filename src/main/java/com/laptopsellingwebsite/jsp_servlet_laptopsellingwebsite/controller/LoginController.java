@@ -21,8 +21,8 @@ public class LoginController extends HttpServlet {
         String userName = request.getParameter("username");
         String pass = request.getParameter("password");
         String md5Hex = DigestUtils.md5Hex(pass).toUpperCase();
-        String base = "https://" + request.getServerName();
-/*        String base = request.getServletContext().getContextPath();*/
+//        String base = "https://" + request.getServerName();
+        String base = request.getServletContext().getContextPath();
         if (UserServices.checkUser(userName)) {
             Account account = UserServices.getUser(userName, md5Hex);
             String passInData = UserServices.getInstance().getPassMD5(userName);

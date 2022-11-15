@@ -19,7 +19,7 @@ public class LogoutController extends HttpServlet {
         session.removeAttribute("account");
         HttpSession sessionPermission = request.getSession();
         sessionPermission.removeAttribute("permission");
-        String base = "https://" + request.getServerName();
+        String base = request.getServletContext().getContextPath();
         response.sendRedirect(base);
     }
 
