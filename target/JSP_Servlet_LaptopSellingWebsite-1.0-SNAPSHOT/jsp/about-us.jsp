@@ -58,20 +58,20 @@
             </div>
             <div class="member-items">
                 <div class="image-member">
-                    <img src="${root}image/member/tanloc.jpg" alt="" class="img">
+                    <img src="${root}image/member/ncphuc.jpg" alt="" class="img">
                 </div>
                 <div class="name-member">
-                    <h1 class="name">Cao Huy Tấn Lộc</h1>
+                    <h1 class="name">Nguyễn Công Phúc</h1>
                 </div>
                 <div class="member-role">
                     <p class="role">Member</p>
                 </div>
                 <div class="link-member">
-                    <a href="https://www.facebook.com/Ya.Tanloc" target="_blank" title="Facebook cá nhân"
+                    <a href="#" target="_blank" title="Facebook cá nhân"
                        class="link-member-items"><i class="fab fa-facebook"></i></a>
-                    <a href="" target="_blank" title="Github cá nhân" class="link-member-items"><i
+                    <a href="#" target="_blank" title="Github cá nhân" class="link-member-items"><i
                             class="fab fa-github"></i></a>
-                    <a href="" target="_blank" title="Link web cá nhân" class="link-member-items"><i
+                    <a href="#" target="_blank" title="Link web cá nhân" class="link-member-items"><i
                             class="fas fa-link"></i></a>
                 </div>
             </div>
