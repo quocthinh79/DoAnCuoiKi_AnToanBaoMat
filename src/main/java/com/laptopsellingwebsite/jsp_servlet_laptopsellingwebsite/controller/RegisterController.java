@@ -30,7 +30,7 @@ public class RegisterController extends HttpServlet {
         String pass = request.getParameter("pass");
         String diaChi = request.getParameter("diaChi");
         String email = request.getParameter("email");
-        String base = "https://" + request.getServerName();
+        String base = request.getServletContext().getContextPath();
         String md5Hex = DigestUtils.md5Hex(pass).toUpperCase();
 
         String urlAPI = "https://emailvalidation.abstractapi.com/v1/?api_key=e487b294b87a42f2a093a546613cf18c&email=" + email;
