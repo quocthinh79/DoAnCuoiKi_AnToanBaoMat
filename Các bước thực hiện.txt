@@ -1,0 +1,9 @@
+I. Tạo chữ ký
+	1. Người dùng upload private key
+	2. Lấy private key tạo signature
+	3. Lấy signature bỏ vào file pdf
+	4. Download file pdf có chữ ký số
+II. Xác thực chữ ký
+	1. Người dùng upload file pdf
+	2. Lấy chữ ký từ file pdf
+	3. Xác thực chữ ký
