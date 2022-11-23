@@ -47,18 +47,3 @@ OrderInfor:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-	3. Xác thực chữ ký
->>>>>>> 8dcdce33b575b3334f4358eb071e4af8283e9c7a
