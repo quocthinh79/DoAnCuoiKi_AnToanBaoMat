@@ -1,0 +1,79 @@
+/*admin css*/
+#admin-section .container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    position: relative;
+}
+
+h2.text-black {
+    color: #000;
+}
+
+#admin-section .menu,
+#admin-section .content {
+    padding: 16px;
+}
+
+#admin-section .menu {
+    height: 700px;
+    position: sticky;
+    top: 83px;
+}
+
+#admin-section .menu .icon-title {
+    cursor: pointer;
+}
+
+#admin-section .menu .title {
+    cursor: pointer;
+    color: #000;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 40px;
+    margin: 0 0 32px 0;
+    opacity: 1;
+    padding: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#admin-section .content {
+    padding: 0 32px;
+}
+
+#admin-section .menu ul {
+    display: flex;
+    flex-direction: column;
+}
+
+#admin-section .menu li {
+    display: block;
+    font-size: 18px;
+    padding: 8px;
+    background: #ccc;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+#admin-section .menu li a {
+    color: #000;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+#admin-section .menu li a:hover {
+    color: #000;
+}
+
+#admin-section .menu li:hover {
+    opacity: 0.8;
+}
+
+.none-display {
+    display: none;
+}
+
+/*end*/
