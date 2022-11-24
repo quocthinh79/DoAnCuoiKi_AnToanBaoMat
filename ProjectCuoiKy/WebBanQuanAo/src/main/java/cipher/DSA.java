@@ -11,7 +11,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
-public class RSA {
+public class DSA {
     private static final String SIGNING_ALGORITHM = "SHA256withDSA";
     private static final String RSA = "DSA";
     public KeyPair keyPair;
@@ -20,7 +20,7 @@ public class RSA {
     public int keySize;
     public int maxSizeCanCipher;
 
-    public RSA() {
+    public DSA() {
         getKey();
     }
 
@@ -274,16 +274,20 @@ public class RSA {
 
     public static void main(String[] args) throws Exception {
         String str = "ThanglonThinh";
-        RSA rsa = new RSA();
+        DSA DSA = new DSA();
         byte[] data = str.getBytes();
 
+        ReadAndWriteFile.writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
+        ReadAndWriteFile.writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+
+        DSA.setPrivateKeyFromText(ReadAndWriteFile.readKeyFromFile("src/main/java/cipher/privateKey.bin"));
+        DSA.setPrivateKeyFromText(ReadAndWriteFile.readKeyFromFile("src/main/java/cipher/publicKey.bin"));
 
         // có chữ ký
-        byte[] signature = rsa.createDigitalSignature(data, rsa.privateKey);
-        System.out.println(rsa.byteToString(signature));
+        byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
 
 //       xác thực chữ ký
-        boolean verify = rsa.verifyDigitalSignature(data, signature, rsa.publicKey);
+        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
         System.out.println(verify);
     }
 }
