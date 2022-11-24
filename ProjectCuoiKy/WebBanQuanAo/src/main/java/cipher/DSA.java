@@ -13,7 +13,6 @@ import java.util.Base64;
 
 public class DSA {
     private static final String SIGNING_ALGORITHM = "SHA256withDSA";
-    private static final String RSA = "DSA";
     public KeyPair keyPair;
     public PublicKey publicKey;
     public PrivateKey privateKey;
@@ -273,7 +272,7 @@ public class DSA {
     }
 
     public static void main(String[] args) throws Exception {
-        String str = "ThanglonThinh";
+        String str = "ThangcThinh";
         DSA DSA = new DSA();
         byte[] data = str.getBytes();
 
