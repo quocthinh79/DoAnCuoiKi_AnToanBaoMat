@@ -1,10 +1,7 @@
 package Services;
 
 import javax.servlet.http.Part;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 
 public class UploadService {
@@ -29,5 +26,20 @@ public class UploadService {
 		} catch (NullPointerException e) {
 			return "";
 		}
+    }
+
+    public static String uploadPrivateKey(Part file1) throws IOException {
+        try {
+            BufferedInputStream bis = new BufferedInputStream(file1.getInputStream());
+            String result = "";
+            int i;
+            while((i = bis.read()) != -1) {
+                result += (char) i;
+            }
+            bis.close();
+            return result;
+        } catch (NullPointerException e) {
+            return "";
+        }
     }
 }
