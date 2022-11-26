@@ -3,29 +3,31 @@ package Beans;
 import java.util.List;
 
 public class OrderInfor {
-    public String id;
-    public List<CartItem> listItem;
-    public double totalPrice;
-    public String firstName;
-    public String lastName;
-    public String phone;
-    public String address;
+    private int id;
+    private List<CartItem> listItem;
+    private double totalPrice;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String address;
 
-    public OrderInfor(String id, List<CartItem> listItem, double totalPrice, String firstName, String lastName, String phone, String address) {
+    public OrderInfor(int id, List<CartItem> listItem, double totalPrice, String Name, String phone, String address) {
         this.id = id;
         this.listItem = listItem;
         this.totalPrice = totalPrice;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = Name;
         this.phone = phone;
         this.address = address;
     }
 
-    public String getId() {
+    public OrderInfor() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -75,5 +77,22 @@ public class OrderInfor {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        String listString = "[";
+        for (CartItem c : listItem){
+            listString += c.toString()+"\n";
+        }
+        listString += "]";
+        return "OrderInfor{" +
+                ", totalPrice=" + totalPrice +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                "listItem=" + listString +
+                '}';
     }
 }
