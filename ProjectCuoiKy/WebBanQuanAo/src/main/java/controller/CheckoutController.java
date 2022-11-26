@@ -61,7 +61,7 @@ public class CheckoutController extends HttpServlet {
                 CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
             }
 //            String hostName = request.getHeader("host")+request.getContextPath();
-            String realPath = request.getServletContext().getRealPath("/assets/uploads");//E:\apache-tomcat-9.0.64\webapps\WebBanQuanAo\assets\uploads
+            String realPath = request.getServletContext().getRealPath("/assets");
             System.out.println(" realPath : " + realPath);
 
             System.out.println("in write order");
