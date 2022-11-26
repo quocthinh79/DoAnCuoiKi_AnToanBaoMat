@@ -2,9 +2,11 @@ package controller;
 
 import Beans.Account;
 import Beans.CartItem;
+import Beans.OrderInfor;
 import Dao.CartDao;
 import Dao.PaymentDao;
 import Services.CartService;
+import writetopdf.WriteDataToPdf;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,7 +48,7 @@ public class CheckoutController extends HttpServlet {
         String sdt = request.getParameter("sdt");
         String nguoi_nhan = request.getParameter("nguoi_nhan");
         double thanh_tien = 0;
-
+        System.out.println("in dopost");
         List<CartItem> cartItemList = CartService.getCartItems(Integer.parseInt(idCart));
         for (CartItem item : cartItemList) {
             thanh_tien += item.getPrice();
@@ -58,6 +60,14 @@ public class CheckoutController extends HttpServlet {
                 PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
                 CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
             }
+//            String hostName = request.getHeader("host")+request.getContextPath();
+            String realPath = request.getServletContext().getRealPath("/assets/uploads");//E:\apache-tomcat-9.0.64\webapps\WebBanQuanAo\assets\uploads
+            System.out.println(" realPath : " + realPath);
+
+            System.out.println("in write order");
+            OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
+            WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
+            System.out.println("after write" + cartItemList.size());
         }
     }
 }
