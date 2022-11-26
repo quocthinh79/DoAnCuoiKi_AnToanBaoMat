@@ -8,14 +8,12 @@ import java.io.*;
  **/
 public class ReadAndWriteFile {
     public static void main(String[] args) {
-        writeKeyToFile("Xin chào chào!");
-        String key = readKeyFromFile(new File("src/main/java/cipher/test.bin"));
-        System.out.println(key);
+
     }
 
-    public static boolean writeKeyToFile(String key) {
+    public static boolean writeKeyToFile(String key, String name) {
         try {
-            File file = new File("src/main/java/cipher/test.bin");
+            File file = new File("src/main/java/cipher/"+name);
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
@@ -31,7 +29,8 @@ public class ReadAndWriteFile {
         return true;
     }
 
-    public static String readKeyFromFile(File file) {
+    public static String readKeyFromFile(String path) {
+        File file = new File(path);
         String result = "";
         try {
             FileReader reader = new FileReader(file);

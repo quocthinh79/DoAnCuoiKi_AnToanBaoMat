@@ -11,22 +11,24 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
-public class RSA {
+public class DSA {
+    private static final String SIGNING_ALGORITHM = "SHA256withDSA";
     public KeyPair keyPair;
     public PublicKey publicKey;
     public PrivateKey privateKey;
     public int keySize;
     public int maxSizeCanCipher;
 
-    public RSA() {
+    public DSA() {
         getKey();
     }
 
     public void getKey() {
         KeyPairGenerator keyGenerator = null;
         try {
-            keyGenerator = KeyPairGenerator.getInstance("RSA");
-            keyGenerator.initialize(512);
+            keyGenerator = KeyPairGenerator.getInstance("DSA", "SUN");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            keyGenerator.initialize(2048, random);
             keyPair = keyGenerator.generateKeyPair();
             publicKey = keyPair.getPublic();
             privateKey = keyPair.getPrivate();
@@ -41,7 +43,7 @@ public class RSA {
         setMaxSizeCanCipher(maxSizeCanCipher);
         KeyPairGenerator keyGenerator = null;
         try {
-            keyGenerator = KeyPairGenerator.getInstance("RSA");
+            keyGenerator = KeyPairGenerator.getInstance("DSA", "SUN");
             keyGenerator.initialize(keySize);
             keyPair = keyGenerator.generateKeyPair();
             publicKey = keyPair.getPublic();
@@ -73,21 +75,21 @@ public class RSA {
     }
 
     public byte[] encrypt(String text) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, privateKey);
         byte[] plaintText = text.getBytes(StandardCharsets.UTF_8);
         return devideByteArray(cipher, plaintText, "ENCRYPT");
     }
 
     public byte[] encryptByteArr(byte[] text, Key key) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, key);
         return cipher.doFinal(text);
     }
 
     public void encryptFile(String pathIn, String pathOut) {
         try {
-            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(pathIn));
             BufferedOutputStream cos = new BufferedOutputStream(new FileOutputStream(pathOut));
@@ -110,7 +112,7 @@ public class RSA {
 
     public void encryptFile(String pathIn, String pathOut, Key key) {
         try {
-            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(pathIn));
             CipherOutputStream cos = new CipherOutputStream(new FileOutputStream(pathOut), cipher);
@@ -130,20 +132,20 @@ public class RSA {
     }
 
     public String decrypt(byte[] text) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
         cipher.init(Cipher.DECRYPT_MODE, publicKey);
         return new String(devideByteArray(cipher, text, "DECRYPT"), StandardCharsets.UTF_8);
     }
 
     public String decrypt(byte[] text, Key key) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] plaintText = cipher.doFinal(text);
         return new String(plaintText, StandardCharsets.UTF_8);
     }
 
     public SecretKey decryptKey(byte[] text, Key key) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] plaintText = cipher.doFinal(text);
         return new SecretKeySpec(plaintText, 0, plaintText.length, "DES");
@@ -151,7 +153,7 @@ public class RSA {
 
     public void decryptFile(String pathIn, String pathOut) {
         try {
-            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(pathOut));
             BufferedInputStream cis = new BufferedInputStream(new FileInputStream(pathIn));
@@ -174,7 +176,7 @@ public class RSA {
 
     public void decryptFile(String pathIn, String pathOut, Key key) {
         try {
-            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cipher = Cipher.getInstance("DSA/ECB/PKCS1Padding");
             cipher.init(Cipher.DECRYPT_MODE, key);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(pathOut));
             CipherInputStream cis = new CipherInputStream(new FileInputStream(pathIn), cipher);
@@ -237,21 +239,54 @@ public class RSA {
         return Base64.getEncoder().encodeToString(data);
     }
 
-    public static byte[] stringToByte(String text) {
+    public byte[] stringToByte(String text) {
         return Base64.getDecoder().decode(text);
     }
 
-    public void setPublicKeyFromText(String text) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void setPublicKeyFromText(String text) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
         X509EncodedKeySpec spec = new X509EncodedKeySpec(stringToByte(text));
-        KeyFactory factory = KeyFactory.getInstance("RSA");
+        KeyFactory factory = KeyFactory.getInstance("DSA", "SUN");
         Key pblKey = factory.generatePublic(spec);
         setPublicKey((PublicKey) pblKey);
     }
 
-    public void setPrivateKeyFromText(String text)  throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void setPrivateKeyFromText(String text) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(stringToByte(text));
-        KeyFactory factory = KeyFactory.getInstance("RSA");
+        KeyFactory factory = KeyFactory.getInstance("DSA", "SUN");
         Key priKey = factory.generatePrivate(spec);
         setPrivateKey((PrivateKey) priKey);
+    }
+
+    public static byte[] createDigitalSignature(byte[] input, PrivateKey Key) throws Exception {
+        Signature dsa = Signature.getInstance(SIGNING_ALGORITHM);
+        dsa.initSign(Key);
+        dsa.update(input);
+        return dsa.sign();
+    }
+
+    public static boolean verifyDigitalSignature(byte[] input, byte[] signatureToVerify, PublicKey key) throws Exception {
+        Signature dsa = Signature.getInstance(SIGNING_ALGORITHM);
+        dsa.initVerify(key);
+        dsa.update(input);
+        return dsa.verify(signatureToVerify);
+    }
+
+    public static void main(String[] args) throws Exception {
+        String str = "ThangcThinh";
+        DSA DSA = new DSA();
+        byte[] data = str.getBytes();
+
+        ReadAndWriteFile.writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
+        ReadAndWriteFile.writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+
+        DSA.setPrivateKeyFromText(ReadAndWriteFile.readKeyFromFile("src/main/java/cipher/privateKey.bin"));
+        DSA.setPrivateKeyFromText(ReadAndWriteFile.readKeyFromFile("src/main/java/cipher/publicKey.bin"));
+
+        // có chữ ký
+        byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
+
+//       xác thực chữ ký
+        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
+        System.out.println(verify);
     }
 }

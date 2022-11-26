@@ -11,11 +11,21 @@ import java.util.List;
 
 
 public class WriteDataToPdf {
-    public void writeObjectToPdf(OrderInfor orderInfor) throws IOException {
+    public static WriteDataToPdf instance;
+
+    private WriteDataToPdf(){}
+    public static WriteDataToPdf getInstance() {
+        if (instance == null){
+            instance = new WriteDataToPdf();
+        }
+        return instance;
+    }
+
+    public void writeObjectToPdf(OrderInfor orderInfor,String hostName) throws IOException {
         Document document = new Document();
         try {
             // khởi tạo một PdfWriter truyền vào document và FileOutputStream
-            PdfWriter.getInstance(document, new FileOutputStream("src/main/java/writetopdf/CompletePDF/CompletePDF.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(hostName+"/CompletePDF.pdf"));
             document.open();
 
             Paragraph id = new Paragraph("- ID Order: " + orderInfor.getId());
@@ -102,10 +112,10 @@ public class WriteDataToPdf {
         listCartItem.add(cartItem);
         listCartItem.add(cartItem2);
         listCartItem.add(cartItem3);
-        OrderInfor orderInfor = new OrderInfor("IDOrder", listCartItem, 32.2, "String name", "String name", "String phone", "String address");
+        OrderInfor orderInfor = new OrderInfor(123, listCartItem, 32.2, "String name", "String phone", "String address");
 
         WriteDataToPdf t = new WriteDataToPdf();
-        t.writeObjectToPdf(orderInfor);
+        t.writeObjectToPdf(orderInfor,"");
     }
 
 }
