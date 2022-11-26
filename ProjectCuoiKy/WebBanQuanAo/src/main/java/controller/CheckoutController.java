@@ -6,6 +6,7 @@ import Beans.OrderInfor;
 import Dao.CartDao;
 import Dao.PaymentDao;
 import Services.CartService;
+import Services.SendMailService;
 import writetopdf.WriteDataToPdf;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -48,7 +50,14 @@ public class CheckoutController extends HttpServlet {
         String sdt = request.getParameter("sdt");
         String nguoi_nhan = request.getParameter("nguoi_nhan");
         double thanh_tien = 0;
-        System.out.println("in dopost");
+
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null){
+            System.out.println("account null");
+            return;
+        }
+
         List<CartItem> cartItemList = CartService.getCartItems(Integer.parseInt(idCart));
         for (CartItem item : cartItemList) {
             thanh_tien += item.getPrice();
@@ -61,13 +70,18 @@ public class CheckoutController extends HttpServlet {
                 CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
             }
 //            String hostName = request.getHeader("host")+request.getContextPath();
-            String realPath = request.getServletContext().getRealPath("/assets/uploads");//E:\apache-tomcat-9.0.64\webapps\WebBanQuanAo\assets\uploads
+            String realPath = request.getServletContext().getRealPath("/assets/CompletePDF.pdf");
             System.out.println(" realPath : " + realPath);
 
             System.out.println("in write order");
             OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
             WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
             System.out.println("after write" + cartItemList.size());
+
+            System.out.println(account.getEmail()+ " - " +realPath);
+            boolean s = SendMailService.sendMailwithFile(account.getEmail(),"hoa don ","test send with",realPath);
+            System.out.println(s);
+
         }
     }
 }

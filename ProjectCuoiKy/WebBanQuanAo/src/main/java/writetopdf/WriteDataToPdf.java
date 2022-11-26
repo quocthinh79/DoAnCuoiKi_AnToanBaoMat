@@ -21,11 +21,11 @@ public class WriteDataToPdf {
         return instance;
     }
 
-    public void writeObjectToPdf(OrderInfor orderInfor,String hostName) throws IOException {
+    public void writeObjectToPdf(OrderInfor orderInfor,String FilePath) throws IOException {
         Document document = new Document();
         try {
             // khởi tạo một PdfWriter truyền vào document và FileOutputStream
-            PdfWriter.getInstance(document, new FileOutputStream(hostName+"/CompletePDF.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(FilePath));
             document.open();
 
             Paragraph id = new Paragraph("- ID Order: " + orderInfor.getId());
