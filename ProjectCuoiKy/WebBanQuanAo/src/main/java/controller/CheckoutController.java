@@ -3,9 +3,12 @@ package controller;
 import Beans.Account;
 import Beans.CartItem;
 import Beans.OrderInfor;
+import Dao.AccountDao;
 import Dao.CartDao;
 import Dao.PaymentDao;
 import Services.CartService;
+import cipher.DSA;
+import cipher.MD5;
 import writetopdf.WriteDataToPdf;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 @WebServlet(name = "checkoutController", value = "/checkout")
@@ -43,31 +49,53 @@ public class CheckoutController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        String privateKey = request.getParameter("privateKey");
+
+        String userAccount = request.getParameter("userAccount");
         String idCart = request.getParameter("idCart");
         String dia_chi = request.getParameter("dia_chi");
         String sdt = request.getParameter("sdt");
         String nguoi_nhan = request.getParameter("nguoi_nhan");
         double thanh_tien = 0;
-        System.out.println("in dopost");
         List<CartItem> cartItemList = CartService.getCartItems(Integer.parseInt(idCart));
         for (CartItem item : cartItemList) {
             thanh_tien += item.getPrice();
         }
 
-        int ma_hoa_don = PaymentDao.createNewPayment(Integer.parseInt(idCart), dia_chi, sdt, nguoi_nhan, thanh_tien);
-        if (ma_hoa_don > 0) {
-            for (CartItem item : cartItemList) {
-                PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
-                CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
-            }
-//            String hostName = request.getHeader("host")+request.getContextPath();
-            String realPath = request.getServletContext().getRealPath("/assets");
-            System.out.println(" realPath : " + realPath);
+        OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart), cartItemList, thanh_tien, nguoi_nhan, sdt, dia_chi);
 
-            System.out.println("in write order");
-            OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
-            WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
-            System.out.println("after write" + cartItemList.size());
+        DSA dsa = new DSA();
+        try {
+            dsa.setPrivateKeyFromText(privateKey);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchProviderException e) {
+            e.printStackTrace();
         }
+
+
+//        int ma_hoa_don = PaymentDao.createNewPayment(Integer.parseInt(idCart), dia_chi, sdt, nguoi_nhan, thanh_tien);
+//        if (ma_hoa_don > 0) {
+//            for (CartItem item : cartItemList) {
+//                PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
+//                CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
+//            }
+////            String hostName = request.getHeader("host")+request.getContextPath();
+//            String realPath = request.getServletContext().getRealPath("/assets");
+//            System.out.println(" realPath : " + realPath);
+//
+//            System.out.println("in write order");
+//            OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
+//            WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
+//            System.out.println("after write" + cartItemList.size());
+//        }
+    }
+
+    public byte[] digitalSignature(OrderInfor orderInfor, String privateKey, DSA dsa) throws Exception {
+
+        return null;
+    }
+
+    public static boolean verifyDigitalSignature(OrderInfor orderInfor, byte[] sign, DSA dsa, String publicKey) throws Exception {
+
+        return true;
     }
 }
