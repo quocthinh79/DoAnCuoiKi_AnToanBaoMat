@@ -17,21 +17,19 @@ import java.util.List;
 public class WriteDataToPdf {
     public static WriteDataToPdf instance;
 
-    private WriteDataToPdf() {
-    }
-
+    private WriteDataToPdf(){}
     public static WriteDataToPdf getInstance() {
-        if (instance == null) {
+        if (instance == null){
             instance = new WriteDataToPdf();
         }
         return instance;
     }
 
-    public void writeObjectToPdf(OrderInfor orderInfor, String hostName) throws IOException {
+    public void writeObjectToPdf(OrderInfor orderInfor,String FilePath) throws IOException {
         Document document = new Document();
         try {
             // khởi tạo một PdfWriter truyền vào document và FileOutputStream
-            PdfWriter.getInstance(document, new FileOutputStream(hostName + "/CompletePDF.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(FilePath));
             document.open();
 
             BaseFont bf = BaseFont.createFont("ArialUnicodeMS.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
