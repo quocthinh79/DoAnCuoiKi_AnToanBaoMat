@@ -18,9 +18,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.List;
 
 @WebServlet(name = "checkoutController", value = "/checkout")
@@ -50,6 +57,7 @@ public class CheckoutController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String privateKey = request.getParameter("privateKey");
+        PrintWriter pw = response.getWriter();
 
         String userAccount = request.getParameter("userAccount");
         String idCart = request.getParameter("idCart");
@@ -68,24 +76,57 @@ public class CheckoutController extends HttpServlet {
         try {
             dsa.setPrivateKeyFromText(privateKey);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchProviderException e) {
+            pw.println(-1);
+            pw.flush();
             e.printStackTrace();
         }
 
 
         int ma_hoa_don = PaymentDao.createNewPayment(Integer.parseInt(idCart), dia_chi, sdt, nguoi_nhan, thanh_tien);
-        if (ma_hoa_don > 0) {
-            for (CartItem item : cartItemList) {
-                PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
-                CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
-            }
+        try {
+            if (ma_hoa_don > 0) {
+                for (CartItem item : cartItemList) {
+                    PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
+                    CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
+                }
 //            String hostName = request.getHeader("host")+request.getContextPath();
-            String realPath = request.getServletContext().getRealPath("/assets");
-            System.out.println(" realPath : " + realPath);
+                String realPath = request.getServletContext().getRealPath("/assets");
+                System.out.println(" realPath : " + realPath);
 
-            System.out.println("in write order");
-            OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
-            WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
-            System.out.println("after write" + cartItemList.size());
+                System.out.println("in write order");
+                OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart), cartItemList, thanh_tien, nguoi_nhan, sdt, dia_chi);
+                String dataString = MD5.MD5Text(orderInfor.toString());
+                byte[] dataByte = dataString.getBytes(StandardCharsets.UTF_8);
+                try {
+                    dsa.setPrivateKeyFromText(privateKey);
+                } catch (Exception e) {
+                    pw.println(-1);
+                    pw.flush();
+                    e.printStackTrace();
+                }
+                byte[] signature = DSA.createDigitalSignature(dataByte, dsa.getPrivateKey());
+                String publicKey = AccountDao.getPublicKeyByUser(userAccount);
+                try {
+                    dsa.setPublicKeyFromText(publicKey);
+                } catch (Exception e) {
+                    pw.println(-1);
+                    pw.flush();
+                    e.printStackTrace();
+                }
+                if (DSA.verifyDigitalSignature(dataByte, signature, dsa.getPublicKey())) {
+                    WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor, realPath);
+                    pw.println(1);
+                    pw.flush();
+                } else {
+                    pw.println(-1);
+                    pw.flush();
+                }
+                System.out.println("after write" + cartItemList.size());
+            }
+        } catch (Exception e) {
+            pw.println(-1);
+            pw.flush();
+            e.printStackTrace();
         }
     }
 

@@ -111,39 +111,4 @@ public class WriteDataToPdf {
             e.printStackTrace();
         }
     }
-
-//    public static void main(String[] args) throws IOException {
-//        // TODO Auto-generated method stub
-//
-//        CartItem cartItem = new CartItem();
-//        cartItem.setColor("String color");
-//        cartItem.setIdProduct("String id");
-//        cartItem.setPrice(3.4);
-//        cartItem.setQuantity(3);
-//        cartItem.setNameProduct("String name");
-//        cartItem.setThumbnail("String thum");
-//        CartItem cartItem2 = new CartItem();
-//        cartItem2.setColor("String color 2");
-//        cartItem2.setIdProduct("String id 2");
-//        cartItem2.setPrice(3.421);
-//        cartItem2.setQuantity(3332);
-//        cartItem2.setNameProduct("String name 2");
-//        cartItem2.setThumbnail("String thum 2");
-//        CartItem cartItem3 = new CartItem();
-//        cartItem3.setColor("String color 3");
-//        cartItem3.setIdProduct("String id 3");
-//        cartItem3.setPrice(3.4444);
-//        cartItem3.setQuantity(321);
-//        cartItem3.setNameProduct("String name 3");
-//        cartItem3.setThumbnail("String thum 3");
-//        List<CartItem> listCartItem = new ArrayList<>();
-//        listCartItem.add(cartItem);
-//        listCartItem.add(cartItem2);
-//        listCartItem.add(cartItem3);
-//        OrderInfor orderInfor = new OrderInfor(123, listCartItem, 32.2, "String name", "String phone", "String address");
-//
-//        WriteDataToPdf t = new WriteDataToPdf();
-//        t.writeObjectToPdf(orderInfor, "");
-//    }
-
 }

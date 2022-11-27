@@ -80,6 +80,7 @@
                                         </script>
                                     </form>
                                 </div>
+                                <div id="fail-checkout"></div>
                                 <div class="modal-footer" style="text-align: center;">
                                     <button type="button" class="btn btn-primary" onclick="confirmPayment()">Xác nhận
                                     </button>
