@@ -1,6 +1,7 @@
 package controller;
 
 import Dao.AccountDao;
+import cipher.DSA;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,10 +19,24 @@ public class ConfirmController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String token = request.getParameter("token");
         AccountDao.updateStateRegister(id, token, AccountDao.RegisterState.SUCCESS);
+//      Lấy ra tên tài khoản đã đăng ký thành công
+        String username = AccountDao.getUserFromTableDANGKY(id);
+
+//      Tạo public và private key
+        DSA dsa = new DSA();
+        String privateKey = dsa.byteToString(dsa.getPrivateKey().getEncoded());
+        String publicKey = dsa.byteToString(dsa.getPublicKey().getEncoded());
+//      Lưu trữ publicKey vào database
+        AccountDao.addPublicKey(username, publicKey);
+//      Gửi cho người dùng chuỗi privateKey
+
         String message = "";
         String href = "";
         String hrefName = "";
-        message = "Chúc mừng bạn đăng ký thành công, ";
+        message = "Chúc mừng bạn đăng ký thành công. Đây là private key của bạn."
+                + " bạn bắt buộc phải dùng private key để xác thực khi thanh toán"
+                + ". Vui lòng lưu lại và không được cho ai biết.\r\n"
+                + "Private key là: " + privateKey + "\r\n";
         href = "login";
         hrefName = "Đăng nhập ngay";
         request.setAttribute("message", message);

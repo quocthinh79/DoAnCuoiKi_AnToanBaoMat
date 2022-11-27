@@ -55,13 +55,35 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <h3>Bạn có muốn xác nhận thanh toán</h3>
+                                    <form id="confirm" action="/WebBanQuanAo/key" method="post"
+                                          enctype="multipart/form-data">
+                                        <h3>Vui lòng nhập khóa được cấp khi đăng ký để tiến hành ký chữ ký điện tử!</h3>
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="txt-privateKey" rows="7"></textarea>
+                                        </div>
+                                        <div class="form-group" style="margin-top: 4px">
+                                            <label for="privateKey" class="form-label">Upload khóa</label>
+                                            <input type="file" class="form-control" name="privateKey" id="privateKey"
+                                                   style="height: auto !important;"
+                                                   placeholder="Chọn file chứa khóa của bạn">
+                                            <p class="form-text text-danger text-muted form-error"></p>
+                                        </div>
+                                        <script type="text/javascript">
+                                            document.getElementById('privateKey').addEventListener('change', function () {
+                                                const fr = new FileReader();
+                                                fr.onload = function () {
+                                                    $("#txt-privateKey").val(fr.result);
+                                                }
+
+                                                fr.readAsText(this.files[0]);
+                                            })
+                                        </script>
+                                    </form>
                                 </div>
                                 <div class="modal-footer" style="text-align: center;">
                                     <button type="button" class="btn btn-primary" onclick="confirmPayment()">Xác nhận
                                     </button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy thanh toán
-                                    </button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +136,7 @@
                     <div class="row">
                         <c:if var="accountIsExist" test="${sessionScope.account != null}"/>
                         <form action="#">
-                            <div class="checkbox-form">
+                            <div class="checkbox-form" style="padding-top: 20px;">
                                 <div class="col-md-12">
                                     <h3 class="checkbox9">Chi tiết giao hàng</h3>
                                 </div>
@@ -175,6 +197,9 @@
         <%--Model xác nhận thanh toán--%>
     </div>
 </div>
+<script type="text/javascript">
+    var $path_base = "${requestScope.base}";//in Ace demo this will be used for editurl parameter
+</script>
 <!-- checkout content section end -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src='<c:url value="/admin/js/thanhtoan.js"/>'></script>
