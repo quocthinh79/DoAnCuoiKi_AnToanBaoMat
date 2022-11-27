@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function confirmPayment() {
     const privateKey = $("#txt-privateKey").val().trim();
-    if(privateKey == null || privateKey === "") {
+    if (privateKey == null || privateKey === "") {
         alert("Khóa của bạn đang rỗng, vui lòng upload hoặc nhập khóa vào!")
     } else {
         const idCart = $('#idCart').val();
@@ -24,10 +24,20 @@ function confirmPayment() {
                     type: 'POST',
                     url: `checkout`,
                     dataType: 'text',
-                    data: {'idCart': idCart, 'nguoi_nhan': nguoi_nhan, 'sdt': sdt,
-                        'dia_chi': dia_chi, 'privateKey': privateKey, 'userAccount': userAccount},
+                    data: {
+                        'idCart': idCart, 'nguoi_nhan': nguoi_nhan, 'sdt': sdt,
+                        'dia_chi': dia_chi, 'privateKey': privateKey, 'userAccount': userAccount
+                    },
                     success: function (data) {
-                        console.log("đã gửi dữ liệu")
+                        if (Number.parseInt(data) === -1) {
+                            $('#fail-checkout').text("Không thể xác thực");
+                        } else {
+                            $('#fail-checkout').text("Xác thực thành công. Vui lòng kiểm tra email của bạn!");
+                            alert("Xác thực thành công. Vui lòng kiểm tra email của bạn!")
+                        }
+                    },
+                    error: function (mess) {
+                        $('#fail-checkout').text("Không thể xác thực khóa");
                     }
                 });
                 // alert("Đã xác nhận đơn hàng, vui lòng đợi nhận hàng từ shipper, tiếp tục mua sắm");

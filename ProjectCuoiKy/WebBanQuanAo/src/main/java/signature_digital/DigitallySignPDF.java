@@ -1,5 +1,6 @@
 package signature_digital;
 
+import Beans.OrderInfor;
 import com.aspose.pdf.DocMDPAccessPermissions;
 import com.aspose.pdf.DocMDPSignature;
 import com.aspose.pdf.Document;
@@ -31,6 +32,53 @@ public class DigitallySignPDF {
 //        test3();
 //        ky();
 //        kiemTra();
+//        signToPdf("C:\\apache-tomcat-9.0.69\\webapps\\WebBanQuanAo\\assets\\CompletePDF.pdf", new OrderInfor());
+    }
+
+    public static void signToPdf(String pathPfx, String pathPdf, OrderInfor orderInfor) {
+        //Create a PdfDocument object
+        PdfDocument doc = new PdfDocument();
+        System.out.println(orderInfor.toString());
+        //Load a sample PDF file
+        doc.loadFromFile(pathPdf);
+
+        //Load a pfx certificate
+        PdfCertificate cert = new PdfCertificate(pathPfx, "1234");
+
+        //Create a PdfSignature object
+        PdfSignature signature = new PdfSignature(doc, doc.getPages().get(0), cert, "MySignature");
+        Rectangle2D rect = new Rectangle2D.Float();
+
+        rect.setFrame(new Point2D.Float((float) doc.getPages().get(0).getActualSize().getWidth() - 320, (float) doc.getPages().get(0).getActualSize().getHeight() - 140), new Dimension(270, 100));
+
+        signature.setBounds(rect);
+
+        //Set the graphics mode
+        signature.setGraphicMode(GraphicMode.Sign_Image_And_Sign_Detail);
+
+        //Set the signature content
+        signature.setNameLabel("Ho ten:");
+        signature.setName(orderInfor.getFirstName());
+        signature.setContactInfoLabel("So dien thoai:");
+        signature.setContactInfo(orderInfor.getPhone());
+        signature.setDateLabel("Ngay ky:");
+        signature.setDate(new java.util.Date());
+        signature.setLocationInfoLabel("Dia chi:");
+        signature.setLocationInfo(orderInfor.getAddress());
+        signature.setReasonLabel("Ly do ky: ");
+        signature.setReason("Xac nhan hoa don");
+        signature.setDistinguishedNameLabel("Ten phan biet: ");
+        signature.setDistinguishedName(signature.getCertificate().get_IssuerName().getName());
+//        signature.setSignImageSource(PdfImage.fromFile("C:\\Users\\Administrator\\Desktop\\handwrittenSignature.png"));
+
+        //Set the document permission
+        signature.setDocumentPermissions(PdfCertificationFlags.Forbid_Changes);
+        signature.setCertificated(true);
+
+        //Save to another PDF file
+        doc.saveToFile(pathPdf);
+        doc.close();
+        System.out.println("hoan thanh");
     }
 
     public static void test1() {

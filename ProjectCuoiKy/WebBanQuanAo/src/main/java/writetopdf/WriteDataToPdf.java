@@ -17,15 +17,17 @@ import java.util.List;
 public class WriteDataToPdf {
     public static WriteDataToPdf instance;
 
-    private WriteDataToPdf(){}
+    private WriteDataToPdf() {
+    }
+
     public static WriteDataToPdf getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new WriteDataToPdf();
         }
         return instance;
     }
 
-    public void writeObjectToPdf(OrderInfor orderInfor,String FilePath) throws IOException {
+    public void writeObjectToPdf(OrderInfor orderInfor, String FilePath) throws IOException {
         Document document = new Document();
         try {
             // khởi tạo một PdfWriter truyền vào document và FileOutputStream
@@ -81,13 +83,13 @@ public class WriteDataToPdf {
                     quantity.setAlignment(Element.ALIGN_LEFT);
                     document.add(quantity);
 
-                    Paragraph priceItem = new Paragraph("Giá tiền mỗi sản phẩm: " + String.format("%,.2f", (item.getPrice())) , font);
+                    Paragraph priceItem = new Paragraph("Giá tiền mỗi sản phẩm: " + String.format("%,.2f", (item.getPrice())), font);
                     priceItem.setSpacingBefore(10);
                     priceItem.setIndentationLeft(40f);
                     priceItem.setAlignment(Element.ALIGN_LEFT);
                     document.add(priceItem);
 
-                    Paragraph totalPriceItem = new Paragraph("Tổng tiền sản phẩm: " + String.format("%,.2f", (item.getPrice() * item.getQuantity())) , font);
+                    Paragraph totalPriceItem = new Paragraph("Tổng tiền sản phẩm: " + String.format("%,.2f", (item.getPrice() * item.getQuantity())), font);
                     totalPriceItem.setSpacingBefore(10);
                     totalPriceItem.setIndentationLeft(40f);
                     totalPriceItem.setAlignment(Element.ALIGN_LEFT);
@@ -97,7 +99,7 @@ public class WriteDataToPdf {
                 }
             });
 
-            Paragraph totalPrice = new Paragraph("- Tổng giá trị đơn hàng: " + String.format("%,.2f", orderInfor.getTotalPrice()) , new Font(bf, 22, 1, BaseColor.RED));
+            Paragraph totalPrice = new Paragraph("- Tổng giá trị đơn hàng: " + String.format("%,.2f", orderInfor.getTotalPrice()), new Font(bf, 22, 1, BaseColor.RED));
             totalPrice.setSpacingBefore(10);
             totalPrice.setAlignment(Element.ALIGN_LEFT);
             document.add(totalPrice);
@@ -109,39 +111,4 @@ public class WriteDataToPdf {
             e.printStackTrace();
         }
     }
-
-//    public static void main(String[] args) throws IOException {
-//        // TODO Auto-generated method stub
-//
-//        CartItem cartItem = new CartItem();
-//        cartItem.setColor("String color");
-//        cartItem.setIdProduct("String id");
-//        cartItem.setPrice(3.4);
-//        cartItem.setQuantity(3);
-//        cartItem.setNameProduct("String name");
-//        cartItem.setThumbnail("String thum");
-//        CartItem cartItem2 = new CartItem();
-//        cartItem2.setColor("String color 2");
-//        cartItem2.setIdProduct("String id 2");
-//        cartItem2.setPrice(3.421);
-//        cartItem2.setQuantity(3332);
-//        cartItem2.setNameProduct("String name 2");
-//        cartItem2.setThumbnail("String thum 2");
-//        CartItem cartItem3 = new CartItem();
-//        cartItem3.setColor("String color 3");
-//        cartItem3.setIdProduct("String id 3");
-//        cartItem3.setPrice(3.4444);
-//        cartItem3.setQuantity(321);
-//        cartItem3.setNameProduct("String name 3");
-//        cartItem3.setThumbnail("String thum 3");
-//        List<CartItem> listCartItem = new ArrayList<>();
-//        listCartItem.add(cartItem);
-//        listCartItem.add(cartItem2);
-//        listCartItem.add(cartItem3);
-//        OrderInfor orderInfor = new OrderInfor(123, listCartItem, 32.2, "String name", "String phone", "String address");
-//
-//        WriteDataToPdf t = new WriteDataToPdf();
-//        t.writeObjectToPdf(orderInfor, "");
-//    }
-
 }
