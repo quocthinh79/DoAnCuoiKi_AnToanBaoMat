@@ -1,5 +1,7 @@
 package Beans;
 
+import Services.CartService;
+
 import java.util.List;
 
 public class OrderInfor {
@@ -40,7 +42,11 @@ public class OrderInfor {
     }
 
     public double getTotalPrice() {
-        return totalPrice;
+        double thanh_tien = 0;
+        for (CartItem item : listItem) {
+            thanh_tien += item.getPrice() * item.getQuantity();
+        }
+        return thanh_tien;
     }
 
     public void setTotalPrice(double totalPrice) {
@@ -82,8 +88,8 @@ public class OrderInfor {
     @Override
     public String toString() {
         String listString = "[";
-        for (CartItem c : listItem){
-            listString += c.toString()+"\n";
+        for (CartItem c : listItem) {
+            listString += c.toString() + "\n";
         }
         listString += "]";
         return "OrderInfor{" +

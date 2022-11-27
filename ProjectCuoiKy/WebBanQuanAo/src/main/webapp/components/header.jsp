@@ -25,7 +25,7 @@
                                 <li><a href="admin-dash-board"><i
                                         class="fa fa-user"></i>Quản lý</a></li>
                             </c:if>
-                            <li><a href="my-account"><i
+                            <li><a id="userAccount" href="my-account"><i
                                     class="fa fa-user"></i>${accountIsExist?account.getUserName():"Tài Khoản"}</a></li>
                             <c:if test="${sessionScope.account != null}">
                                 <li><a href="shopping-cart"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>

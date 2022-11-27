@@ -171,7 +171,7 @@ public class AccountDao {
         return null;
     }
 
-    public static List<Account> getListUser(){
+    public static List<Account> getListUser() {
         List<Account> accounts = new ArrayList<>();
         Connection connection = Connect.getInstance().getConnection();
         try {
@@ -206,6 +206,7 @@ public class AccountDao {
         }
         return accounts;
     }
+
     public static boolean addAccount(String lastName, String firstName, String phoneNumber, String email, String
             nameAccount, String password) {
         Connection connection = Connect.getInstance().getConnection();
@@ -248,7 +249,7 @@ public class AccountDao {
             prep.setInt(1, Integer.parseInt(id));
             int res2 = prep.executeUpdate();
             prep.close();
-            return (res1+res2) == 2;
+            return (res1 + res2) == 2;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -277,5 +278,57 @@ public class AccountDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //  Lấy ra tên tài khoản trong bảng đăng ký theo id
+    public static String getUserFromTableDANGKY(int id) {
+        Connection connection = Connect.getInstance().getConnection();
+        try {
+            String query = "Select TEN_TK from DANGKY where MA_DK = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, String.valueOf(id));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean addPublicKey(String id, String publicKey) {
+        Connection connection = Connect.getInstance().getConnection();
+        String sql = null;
+        PreparedStatement prep = null;
+        try {
+            sql = "UPDATE TAIKHOAN SET PUBLIC_KEY= ? WHERE TEN_TK = ?";
+            prep = connection.prepareStatement(sql);
+            prep.setString(1, publicKey);
+            prep.setString(2, id);
+            int res1 = prep.executeUpdate();
+            prep.close();
+            return res1 == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //  Lấy ra publicKey từ username
+    public static String getPublicKeyByUser(String username) {
+        Connection connection = Connect.getInstance().getConnection();
+        try {
+            String query = "Select PUBLIC_KEY from TAIKHOAN where TEN_TK = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
