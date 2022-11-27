@@ -331,4 +331,44 @@ public class AccountDao {
         }
         return null;
     }
+
+    public static Account getById(String username) {
+        List<Account> accounts = new ArrayList<>();
+        Connection connection = Connect.getInstance().getConnection();
+        try {
+            String query = "Select * from TAIKHOAN where TEN_TK = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Account ac = new Account();
+                int userID = resultSet.getInt(1);
+                String firstName = resultSet.getString(2);
+                String lastName = resultSet.getString(3);
+                String phoneNumber = resultSet.getString(4);
+                String email = resultSet.getString(5);
+                String address = resultSet.getString(6);
+                String userName1 = resultSet.getString(7);
+                String passWord1 = resultSet.getString(8);
+                Timestamp dateRegister = resultSet.getTimestamp(9);
+                String role = resultSet.getString(10);
+                ac.setUserID(userID);
+                ac.setFirstName(firstName);
+                ac.setLastName(lastName);
+                ac.setPhoneNumber(phoneNumber);
+                ac.setEmail(email);
+                ac.setAddress(address);
+                ac.setUserName(userName1);
+                ac.setPassWord(passWord1);
+                ac.setDateRegister(dateRegister);
+                ac.setRole(role);
+                accounts.add(ac);
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts.isEmpty() ? null : accounts.get(0);
+    }
 }

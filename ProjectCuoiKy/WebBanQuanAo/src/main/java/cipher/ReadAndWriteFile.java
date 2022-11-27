@@ -7,13 +7,22 @@ import java.io.*;
  * @since : 11/24/2022, Thu
  **/
 public class ReadAndWriteFile {
-    public static void main(String[] args) {
+    public static ReadAndWriteFile instance;
+
+    public static ReadAndWriteFile getInstance() {
+        if (instance == null){
+            instance = new ReadAndWriteFile();
+        }
+        return instance;
+    }
+
+    private ReadAndWriteFile(){
 
     }
 
-    public static boolean writeKeyToFile(String key, String name) {
+    public boolean writeKeyToFile(String key, String name) {
         try {
-            File file = new File("src/main/java/cipher/"+name);
+            File file = new File(name);
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
@@ -29,7 +38,7 @@ public class ReadAndWriteFile {
         return true;
     }
 
-    public static String readKeyFromFile(String path) {
+    public String readKeyFromFile(String path) {
         File file = new File(path);
         String result = "";
         try {
