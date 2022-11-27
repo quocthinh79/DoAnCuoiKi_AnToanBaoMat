@@ -276,11 +276,11 @@ public class DSA {
         DSA DSA = new DSA();
         byte[] data = str.getBytes();
 
-        ReadAndWriteFile.writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
-        ReadAndWriteFile.writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
-
-        DSA.setPrivateKeyFromText(ReadAndWriteFile.readKeyFromFile("src/main/java/cipher/privateKey.bin"));
-        DSA.setPrivateKeyFromText(ReadAndWriteFile.readKeyFromFile("src/main/java/cipher/publicKey.bin"));
+//        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
+//        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+//
+//        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/privateKey.bin"));
+//        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/publicKey.bin"));
 
         // có chữ ký
         byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
