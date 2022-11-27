@@ -10,6 +10,7 @@ import Services.CartService;
 import Services.SendMailService;
 import cipher.DSA;
 import cipher.MD5;
+import signature_digital.DigitallySignPDF;
 import writetopdf.WriteDataToPdf;
 
 import javax.servlet.RequestDispatcher;
@@ -100,7 +101,7 @@ public class CheckoutController extends HttpServlet {
                     CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
                 }
 //            String hostName = request.getHeader("host")+request.getContextPath();
-                String realPath = request.getServletContext().getRealPath("/assets");
+                String realPath = request.getServletContext().getRealPath("/assets/CompletePDF.pdf");
                 System.out.println(" realPath : " + realPath);
 
                 System.out.println("in write order");
@@ -127,6 +128,8 @@ public class CheckoutController extends HttpServlet {
                     WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor, realPath);
                     pw.println(1);
                     pw.flush();
+                    String realPfx = request.getServletContext().getRealPath("/assets/certificate.pfx");
+                    DigitallySignPDF.signToPdf(realPfx, realPath, orderInfor);
                 } else {
                     pw.println(-1);
                     pw.flush();

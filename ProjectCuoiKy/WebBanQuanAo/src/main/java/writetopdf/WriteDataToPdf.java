@@ -17,15 +17,17 @@ import java.util.List;
 public class WriteDataToPdf {
     public static WriteDataToPdf instance;
 
-    private WriteDataToPdf(){}
+    private WriteDataToPdf() {
+    }
+
     public static WriteDataToPdf getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new WriteDataToPdf();
         }
         return instance;
     }
 
-    public void writeObjectToPdf(OrderInfor orderInfor,String FilePath) throws IOException {
+    public void writeObjectToPdf(OrderInfor orderInfor, String FilePath) throws IOException {
         Document document = new Document();
         try {
             // khởi tạo một PdfWriter truyền vào document và FileOutputStream
@@ -81,13 +83,13 @@ public class WriteDataToPdf {
                     quantity.setAlignment(Element.ALIGN_LEFT);
                     document.add(quantity);
 
-                    Paragraph priceItem = new Paragraph("Giá tiền mỗi sản phẩm: " + String.format("%,.2f", (item.getPrice())) , font);
+                    Paragraph priceItem = new Paragraph("Giá tiền mỗi sản phẩm: " + String.format("%,.2f", (item.getPrice())), font);
                     priceItem.setSpacingBefore(10);
                     priceItem.setIndentationLeft(40f);
                     priceItem.setAlignment(Element.ALIGN_LEFT);
                     document.add(priceItem);
 
-                    Paragraph totalPriceItem = new Paragraph("Tổng tiền sản phẩm: " + String.format("%,.2f", (item.getPrice() * item.getQuantity())) , font);
+                    Paragraph totalPriceItem = new Paragraph("Tổng tiền sản phẩm: " + String.format("%,.2f", (item.getPrice() * item.getQuantity())), font);
                     totalPriceItem.setSpacingBefore(10);
                     totalPriceItem.setIndentationLeft(40f);
                     totalPriceItem.setAlignment(Element.ALIGN_LEFT);
@@ -97,7 +99,7 @@ public class WriteDataToPdf {
                 }
             });
 
-            Paragraph totalPrice = new Paragraph("- Tổng giá trị đơn hàng: " + String.format("%,.2f", orderInfor.getTotalPrice()) , new Font(bf, 22, 1, BaseColor.RED));
+            Paragraph totalPrice = new Paragraph("- Tổng giá trị đơn hàng: " + String.format("%,.2f", orderInfor.getTotalPrice()), new Font(bf, 22, 1, BaseColor.RED));
             totalPrice.setSpacingBefore(10);
             totalPrice.setAlignment(Element.ALIGN_LEFT);
             document.add(totalPrice);
