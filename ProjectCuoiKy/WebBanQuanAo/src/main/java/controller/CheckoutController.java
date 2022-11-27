@@ -7,6 +7,7 @@ import Dao.AccountDao;
 import Dao.CartDao;
 import Dao.PaymentDao;
 import Services.CartService;
+import Services.SendMailService;
 import cipher.DSA;
 import cipher.MD5;
 import writetopdf.WriteDataToPdf;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -65,6 +67,14 @@ public class CheckoutController extends HttpServlet {
         String sdt = request.getParameter("sdt");
         String nguoi_nhan = request.getParameter("nguoi_nhan");
         double thanh_tien = 0;
+
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            System.out.println("account null");
+            return;
+        }
+
         List<CartItem> cartItemList = CartService.getCartItems(Integer.parseInt(idCart));
         for (CartItem item : cartItemList) {
             thanh_tien += item.getPrice();
@@ -122,11 +132,15 @@ public class CheckoutController extends HttpServlet {
                     pw.flush();
                 }
                 System.out.println("after write" + cartItemList.size());
+                System.out.println(account.getEmail() + " - " + realPath);
+                boolean s = SendMailService.sendMailwithFile(account.getEmail(), "hoa don ", "test send with", realPath);
+                System.out.println(s);
             }
         } catch (Exception e) {
             pw.println(-1);
             pw.flush();
             e.printStackTrace();
+
         }
     }
 
