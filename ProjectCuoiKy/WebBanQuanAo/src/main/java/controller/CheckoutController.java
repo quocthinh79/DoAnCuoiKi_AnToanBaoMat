@@ -62,7 +62,7 @@ public class CheckoutController extends HttpServlet {
             thanh_tien += item.getPrice();
         }
 
-        OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart), cartItemList, thanh_tien, nguoi_nhan, sdt, dia_chi);
+//        OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart), cartItemList, thanh_tien, nguoi_nhan, sdt, dia_chi);
 
         DSA dsa = new DSA();
         try {
@@ -72,21 +72,21 @@ public class CheckoutController extends HttpServlet {
         }
 
 
-//        int ma_hoa_don = PaymentDao.createNewPayment(Integer.parseInt(idCart), dia_chi, sdt, nguoi_nhan, thanh_tien);
-//        if (ma_hoa_don > 0) {
-//            for (CartItem item : cartItemList) {
-//                PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
-//                CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
-//            }
-////            String hostName = request.getHeader("host")+request.getContextPath();
-//            String realPath = request.getServletContext().getRealPath("/assets");
-//            System.out.println(" realPath : " + realPath);
-//
-//            System.out.println("in write order");
-//            OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
-//            WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
-//            System.out.println("after write" + cartItemList.size());
-//        }
+        int ma_hoa_don = PaymentDao.createNewPayment(Integer.parseInt(idCart), dia_chi, sdt, nguoi_nhan, thanh_tien);
+        if (ma_hoa_don > 0) {
+            for (CartItem item : cartItemList) {
+                PaymentDao.addPaymentDetail(ma_hoa_don, item.getIdProduct(), item.getSize(), item.getColor(), item.getQuantity());
+                CartDao.deleteItem(Integer.parseInt(idCart), item.getIdProduct(), item.getSize(), item.getColor());
+            }
+//            String hostName = request.getHeader("host")+request.getContextPath();
+            String realPath = request.getServletContext().getRealPath("/assets");
+            System.out.println(" realPath : " + realPath);
+
+            System.out.println("in write order");
+            OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart),cartItemList,thanh_tien,nguoi_nhan,sdt,dia_chi);
+            WriteDataToPdf.getInstance().writeObjectToPdf(orderInfor,realPath);
+            System.out.println("after write" + cartItemList.size());
+        }
     }
 
     public byte[] digitalSignature(OrderInfor orderInfor, String privateKey, DSA dsa) throws Exception {
