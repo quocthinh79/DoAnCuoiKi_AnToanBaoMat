@@ -102,9 +102,7 @@ public class CheckoutController extends HttpServlet {
                 }
 //            String hostName = request.getHeader("host")+request.getContextPath();
                 String realPath = request.getServletContext().getRealPath("/assets/CompletePDF.pdf");
-                System.out.println(" realPath : " + realPath);
 
-                System.out.println("in write order");
                 OrderInfor orderInfor = new OrderInfor(Integer.parseInt(idCart), cartItemList, thanh_tien, nguoi_nhan, sdt, dia_chi);
                 String dataString = MD5.MD5Text(orderInfor.toString());
                 byte[] dataByte = dataString.getBytes(StandardCharsets.UTF_8);
@@ -134,9 +132,10 @@ public class CheckoutController extends HttpServlet {
                     pw.println(-1);
                     pw.flush();
                 }
-                System.out.println("after write" + cartItemList.size());
-                System.out.println(account.getEmail() + " - " + realPath);
-                boolean s = SendMailService.sendMailwithFile(account.getEmail(), "hoa don ", "test send with", realPath);
+                System.out.println("list item:" + cartItemList.size());
+
+                boolean s = SendMailService.sendMailwithFile(account.getEmail(), "hoa don ", "Day la hoa don cua ban \n" +
+                        "cam on ban da trai nghiem mua sam tai shop cua chung toi", realPath);
                 System.out.println(s);
             }
         } catch (Exception e) {
