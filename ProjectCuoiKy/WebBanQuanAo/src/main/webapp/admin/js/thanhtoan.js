@@ -38,6 +38,18 @@ function confirmPayment() {
                     },
                     error: function (mess) {
                         $('#fail-checkout').text("Không thể xác thực khóa");
+                    },
+                    beforeSend:function(){
+                        var popup = document.getElementById("alertPopup");
+                        popup.classList.toggle("show");
+                        var btsubmit = document.getElementById("btdialogsubmit");
+                        btsubmit.style.pointerEvents =  "none";
+                    },
+                    complete:function(){
+                        var popup = document.getElementById("alertPopup");
+                        popup.classList.toggle("hide");
+                        var dialog = document.getElementById("modal-dialog");
+                        dialog.style.visibility = "hidden";
                     }
                 });
                 // alert("Đã xác nhận đơn hàng, vui lòng đợi nhận hàng từ shipper, tiếp tục mua sắm");

@@ -52,7 +52,7 @@ public class ConfirmController extends HttpServlet {
         ReadAndWriteFile.getInstance().writeKeyToFile(privateKey,keyPath);
 
         String email = account.getEmail();
-        boolean sendsuccess = SendMailService.sendMailwithFile(email,"private key xác thực thanh toán của Shop bán quần áo",messagesenmail,keyPath);
+        boolean sendsuccess = SendMailService.sendMailwithFile(email,"Private Key ",messagesenmail,keyPath);
 
         System.out.println("send mail to " +email + " " +sendsuccess);
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/notification.jsp");
