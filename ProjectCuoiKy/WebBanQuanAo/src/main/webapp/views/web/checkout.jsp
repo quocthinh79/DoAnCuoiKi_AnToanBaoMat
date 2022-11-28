@@ -82,7 +82,7 @@
                                 </div>
                                 <div id="fail-checkout"></div>
                                 <div class="modal-footer" style="text-align: center;">
-                                    <button type="button" class="btn btn-primary popup" onclick="confirmPayment()">Xác nhận
+                                    <button type="button" class="btn btn-primary popup" id="btdialogsubmit" onclick="confirmPayment()">Xác nhận
                                     <span class="popuptext" id="alertPopup">Vui lòng đợi giây lát</span>
                                     </button>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>

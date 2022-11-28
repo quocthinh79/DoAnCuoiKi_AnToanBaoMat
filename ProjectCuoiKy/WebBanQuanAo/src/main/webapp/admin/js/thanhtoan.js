@@ -42,6 +42,8 @@ function confirmPayment() {
                     beforeSend:function(){
                         var popup = document.getElementById("alertPopup");
                         popup.classList.toggle("show");
+                        var btsubmit = document.getElementById("btdialogsubmit");
+                        btsubmit.style.pointerEvents =  "none";
                     },
                     complete:function(){
                         var popup = document.getElementById("alertPopup");
