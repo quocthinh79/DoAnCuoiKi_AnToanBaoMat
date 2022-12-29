@@ -52,7 +52,21 @@ OrderInfor:
 
 
 
+Chức năng 1: Cấp lại private key cho người dùng
+	- Người dùng vào trang tài khoản, nhập mật khẩu và yêu cầu cấp lại private key, server tạo lại PVK và PLK lưu lại vào db
+	và gửi file PVK qua mail cho người dùng
+		+ 1. Trang my-account: sửa lại FE(Thịnh)
+		+ 2. Thêm Controller tạo lại 2 key và update 2 key vào db(Thịnh)
+		+ Gửi file private key qua mail cho người dùng(Phú)
 
+
+Chức năng 2: Xác thực hoá đơn từ file hoá đơn pdf
+	- Người dùng upload file pdf và file private key
+	- Server xác thực
+		+ 3. Tìm hiểu đọc userId và idHoaDon từ pdf thu được hashing từ db
+		+ 4. Upload file pdf và private key lên server(Phúc)
+		+ 5. Dùng MD5 hashing file pdf, dùng DSA mã hoá file hashing (Phúc)
+		+ 6. Gọi hàm qua Dao lấy public key từ db, mã hoá file thu được hashing đem so sánh với hashing db(Phú)
 
 
 
