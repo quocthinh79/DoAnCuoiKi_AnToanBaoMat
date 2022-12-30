@@ -181,13 +181,13 @@
                             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
                                 <div class="easy2">
-                                    <form class="form-horizontal" action="#">
+                                    <form class="form-horizontal" action="/WebBanQuanAo/GenerateKeyController" method="post">
                                         <fieldset>
                                             <legend>Mật khẩu của bạn</legend>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">Mật khẩu</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" type="password"
+                                                    <input name="pass-generate-key" class="form-control" type="password"
                                                            placeholder="Mật khẩu">
                                                 </div>
                                             </div>
