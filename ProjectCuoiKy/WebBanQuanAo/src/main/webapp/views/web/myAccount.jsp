@@ -181,7 +181,8 @@
                             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
                                 <div class="easy2">
-                                    <form class="form-horizontal" action="/WebBanQuanAo/GenerateKeyController" method="post">
+                                    <form class="form-horizontal" action="/WebBanQuanAo/GenerateKeyController"
+                                          method="post">
                                         <fieldset>
                                             <legend>Mật khẩu của bạn</legend>
                                             <div class="form-group required">
@@ -214,22 +215,53 @@
                             <div id="collapseFive" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
                                 <div class="easy2">
-                                    <form class="form-horizontal" action="#" method="post">
+                                    <form class="form-horizontal" action="/" method="post"
+                                          enctype='multipart/form-data'>
                                         <fieldset>
                                             <legend>Upload hóa đơn của bạn</legend>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">Hóa đơn</label>
                                                 <div class="col-sm-10">
-                                                    <input name="#" class="form-control" type="file"
+                                                    <input name="file_pdf" id="pdf_file" class="form-control"
+                                                           type="file"
+                                                           accept=".pdf"
                                                            placeholder="Chọn hóa đơn cần xác thực">
                                                 </div>
                                             </div>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">Private key</label>
+                                                <div class="col-sm-10">
+                                                    <input name="private_key" id="private_key" class="form-control"
+                                                           type="file"
+                                                           placeholder="Chọn private key">
+                                                </div>
+                                            </div>
+                                            <textarea id="txt-pdf" rows="7" style="display: none"></textarea>
+                                            <textarea id="txt-privateKey" rows="7" style="display: none"></textarea>
+                                            <script type="text/javascript">
+                                                document.getElementById('pdf_file').addEventListener('change', function (event) {
+                                                    const fr = new FileReader();
+                                                    fr.onload = function () {
+                                                        $("#txt-pdf").val(fr.result);
+                                                    }
+                                                    fr.readAsText(this.files[0]);
+                                                })
+
+                                                document.getElementById('private_key').addEventListener('change', function (event) {
+                                                    const fr = new FileReader();
+                                                    fr.onload = function () {
+                                                        $("#txt-privateKey").val(fr.result);
+                                                    }
+                                                    fr.readAsText(this.files[0]);
+                                                })
+                                            </script>
                                         </fieldset>
                                         <div class="buttons clearfix">
                                             <div class="pull-right">
-                                                <input class="btn btn-primary ce5" type="submit" value="Kiểm tra">
+                                                <input class="btn btn-primary ce5" onclick="verify()" value="Kiểm tra">
                                             </div>
                                         </div>
+                                        <input name="action" id="action" value="" style="display: none">
                                     </form>
                                 </div>
                             </div>
@@ -241,5 +273,7 @@
     </div>
 </section>
 <!-- my account content section end -->
+<script src='<c:url value="/assets/js/xacthuc.js"/>'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 </html>
