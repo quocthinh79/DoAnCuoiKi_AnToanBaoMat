@@ -169,6 +169,71 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFour">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        Tạo key mới
+                                        <i class="fa fa-caret-down"></i></a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
+                                <div class="easy2">
+                                    <form class="form-horizontal" action="/WebBanQuanAo/GenerateKeyController" method="post">
+                                        <fieldset>
+                                            <legend>Mật khẩu của bạn</legend>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">Mật khẩu</label>
+                                                <div class="col-sm-10">
+                                                    <input name="pass-generate-key" class="form-control" type="password"
+                                                           placeholder="Mật khẩu">
+                                                    <span class="form-error text-red mt-16">${requestScope.error}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="buttons clearfix">
+                                            <div class="pull-right">
+                                                <input class="btn btn-primary ce5" type="submit" value="Tạo key">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFive">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        Xác nhận hóa đơn
+                                        <i class="fa fa-caret-down"></i></a>
+                                </h4>
+                            </div>
+                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
+                                <div class="easy2">
+                                    <form class="form-horizontal" action="#" method="post">
+                                        <fieldset>
+                                            <legend>Upload hóa đơn của bạn</legend>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">Hóa đơn</label>
+                                                <div class="col-sm-10">
+                                                    <input name="#" class="form-control" type="file"
+                                                           placeholder="Chọn hóa đơn cần xác thực">
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="buttons clearfix">
+                                            <div class="pull-right">
+                                                <input class="btn btn-primary ce5" type="submit" value="Kiểm tra">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
