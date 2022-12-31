@@ -31,3 +31,6 @@
 <link rel="stylesheet" href='<c:url value="/assets/css/myAdmin.css"/>'>
 <!-- modernizr css -->
 <script src='<c:url value="/assets/js/vendor/modernizr-2.8.3.min.js"/>'></script>
+
+<!-- popup in thanh toan css -->
+<link rel="stylesheet" href='<c:url value="/assets/css/popup.css"/>'>

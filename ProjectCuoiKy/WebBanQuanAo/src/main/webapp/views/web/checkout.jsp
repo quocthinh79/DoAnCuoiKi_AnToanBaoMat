@@ -46,7 +46,7 @@
                     </div>
                     <div class="modal fade" id="confirmPayment" tabindex="-1" role="dialog"
                          aria-labelledby="confirmPaymentModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog" id="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Xác nhậm thanh toán</h5>
@@ -82,13 +82,15 @@
                                 </div>
                                 <div id="fail-checkout"></div>
                                 <div class="modal-footer" style="text-align: center;">
-                                    <button type="button" class="btn btn-primary" onclick="confirmPayment()">Xác nhận
+                                    <button type="button" class="btn btn-primary popup" id="btdialogsubmit" onclick="confirmPayment()">Xác nhận
+                                    <span class="popuptext" id="alertPopup">Vui lòng đợi giây lát</span>
                                     </button>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="ro-footer">
                         <div>
                             <p>
@@ -204,5 +206,8 @@
 <!-- checkout content section end -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src='<c:url value="/admin/js/thanhtoan.js"/>'></script>
+<style>
+
+</style>
 </body>
 </html>
