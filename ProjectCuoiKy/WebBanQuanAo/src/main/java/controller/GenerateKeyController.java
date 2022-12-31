@@ -44,6 +44,7 @@ public class GenerateKeyController extends HttpServlet {
             boolean sendsuccess = SendMailService.sendMailwithFile(email, "Private Key ", messagesenmail, keyPath);
             System.out.println("send mail to " + email + " " + sendsuccess);
         } else {
+            request.setAttribute("error", "Sai mật khẩu");
             System.out.println("Sai tài khoản");
         }
         request.setAttribute("pageName", "Tài khoản");
