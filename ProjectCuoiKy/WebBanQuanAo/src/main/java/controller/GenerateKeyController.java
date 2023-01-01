@@ -47,8 +47,14 @@ public class GenerateKeyController extends HttpServlet {
             request.setAttribute("error", "Sai mật khẩu");
             System.out.println("Sai tài khoản");
         }
-        request.setAttribute("pageName", "Tài khoản");
-        RequestDispatcher rd = request.getRequestDispatcher("/views/web/myAccount.jsp");
+//        request.setAttribute("pageName", "Tài khoản");
+//        RequestDispatcher rd = request.getRequestDispatcher("/views/web/myAccount.jsp");
+//        rd.forward(request, response);
+
+        String message = "Đã cập nhật key mới, vui lòng kiểm tra email đăng ký tài khoản của bạn!";
+        request.setAttribute("message", message);
+        request.setAttribute("pageName", "Thông báo");
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/notification.jsp");
         rd.forward(request, response);
     }
 }
