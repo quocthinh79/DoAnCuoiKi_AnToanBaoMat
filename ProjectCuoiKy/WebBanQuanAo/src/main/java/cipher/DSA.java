@@ -1,5 +1,10 @@
 package cipher;
 
+import Dao.AccountDao;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
@@ -272,21 +277,46 @@ public class DSA {
     }
 
     public static void main(String[] args) throws Exception {
-        String str = "ThangcThinh";
-        DSA DSA = new DSA();
-        byte[] data = str.getBytes();
-
-//        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
-//        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+//        String str = "ThangcThinh";
+//        DSA DSA = new DSA();
+//        byte[] data = str.getBytes();
 //
-//        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/privateKey.bin"));
-//        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/publicKey.bin"));
+////        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
+////        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+////
+////        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/privateKey.bin"));
+////        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/publicKey.bin"));
+//
+//        // có chữ ký
+//        byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
+//
+////       xác thực chữ ký
+//        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
+//        System.out.println(verify);
 
-        // có chữ ký
-        byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
+        PdfReader pdfReader = new PdfReader("E:\\CompletePDF.pdf");
+        int pages = pdfReader.getNumberOfPages();
+        String pageContent = "";
+        for(int i=1; i<=pages; i++) {
+            //Extract the page content using PdfTextExtractor.
+            pageContent =
+                    PdfTextExtractor.getTextFromPage(pdfReader, i);
 
-//       xác thực chữ ký
-        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
-        System.out.println(verify);
+            //Print the page content on console.
+            System.out.println("Content on Page "
+                    + i + ": " + pageContent);
+        }
+
+        String[] lines = pageContent.split("\n");
+        System.out.println("line 1: " + lines[1].substring(15));
+
+        //Close the PdfReader.
+        pdfReader.close();
+
+        String pubKey = AccountDao.getPublicKeyByUser("admin");
+        System.out.println(pubKey);
+        String hash = "MIIDQjCCAjUGByqGSM44BAEwggIoAoIBAQCPeTXZuarpv6vtiHrPSVG28y7FnjuvNxjo6sSWHz79NgbnQ1GpxBgzObgJ58KuHFObp0dbhdARrbi0eYd1SYRpXKwOjxSzNggooi/6JxEKPWKpk0U0CaD+aWxGWPhL3SCBnDcJoBBXsZWtzQAjPbpUhLYpH51kjviDRIZ3l5zsBLQ0pqwudemYXeI9sCkvwRGMn/qdgYHnM423krcw17njSVkvaAmYchU5Feo9a4tGU8YzRY+AOzKkwuDycpAlbk4/ijsIOKHEUOThjBopo33fXqFD3ktm/wSQPtXPFiPhWNSHxgjpfyEc2B3KI8tuOAdl+CLjQr5ITAV2OTlgHNZnAh0AuvaWpoV499/e5/pnyXfHhe8ysjO65YDAvNVpXQKCAQAWplxYIEhQcE51AqOXVwQNNNo6NHjBVNTkpcAtJC7gT5bmHkvQkEq9rI837rHgnzGC0jyQQ8tkL4gAQWDt+coJsyB2p5wypifyRz6Rh5uixOdEvSCBVEy1W4AsNo0fqD7UielOD6BojjJCilx4xHjGjQUntxyaOrsLC+EsRGiWOefTznTbEBplqiuH9kxoJts+xy9LVZmDS7TtsC98kOmkltOlXVNb6/xF1PYZ9j897buHOSXC8iTgdzEpbaiH7B5HSPh++1/et1SEMWsiMt7lU92vAhErDR8C2jCXMiT+J67ai51LKSLZuovjntnhA6Y8UoELxoi34u1DFuHvF9veA4IBBQACggEAIxXQUWmpvbqBNmLtxGl56hPbtKFGr1XnIJnrUH55XrHDoijL/DqzBd0R3no3skUgL0xeVHtCYOAb8ZvtyS2tMntbIolJcEVj02xexvmtPOfd3qBkQrOKlZiHu6WaWT/6+qmMebuOpSQiaq5OP6pUGEOYd1P/xEZAu0cOXQzs4CH/m6/q388FiBKUcDj3vJ/hL8/ZslrIdTafsHwQPlUYjUzC3Xtw1kvPKZvMbWiYTdDmAOf7wZq67C8uJAeUrGz1teTQ9ukFYfDZ57MZzFTdo//DZH0joQ905tKd/absx7zJFk5V2c01n5/yHTtt1foDG4j35+OscZYyPgaeKL5P/g==";
+        System.out.println(pubKey == hash);
+        System.out.println(pubKey.equals(hash));
     }
 }
