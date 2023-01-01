@@ -11,7 +11,7 @@ public class Connect {
     private Connect() {
         String url = "jdbc:mysql://localhost:3306/WEBBANHANG";
         String userName = "root";
-        String password = "";
+        String password = "LTWteam9";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, userName, password);
