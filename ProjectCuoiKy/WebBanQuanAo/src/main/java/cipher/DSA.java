@@ -279,7 +279,9 @@ public class DSA {
 
     public static void main(String[] args) throws Exception {
 //        String str = "ThangcThinh";
-//        DSA DSA = new DSA();
+        DSA DSA = new DSA();
+        System.out.println(Base64.getEncoder().encodeToString(DSA.privateKey.getEncoded()));
+        System.out.println("hahaa");
 //        byte[] data = str.getBytes();
 //
 ////        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
@@ -295,24 +297,24 @@ public class DSA {
 //        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
 //        System.out.println(verify);
 
-        PdfReader pdfReader = new PdfReader("E:\\CompletePDF.pdf");
-        int pages = pdfReader.getNumberOfPages();
-        String pageContent = "";
-        for(int i=1; i<=pages; i++) {
-            //Extract the page content using PdfTextExtractor.
-            pageContent =
-                    PdfTextExtractor.getTextFromPage(pdfReader, i);
-
-            //Print the page content on console.
-            System.out.println("Content on Page "
-                    + i + ": " + pageContent);
-        }
-
-        String[] lines = pageContent.split("\n");
-        System.out.println("line 1: " + lines[1].substring(15));
-
-        //Close the PdfReader.
-        pdfReader.close();
+//        PdfReader pdfReader = new PdfReader("E:\\CompletePDF.pdf");
+//        int pages = pdfReader.getNumberOfPages();
+//        String pageContent = "";
+//        for(int i=1; i<=pages; i++) {
+//            //Extract the page content using PdfTextExtractor.
+//            pageContent =
+//                    PdfTextExtractor.getTextFromPage(pdfReader, i);
+//
+//            //Print the page content on console.
+//            System.out.println("Content on Page "
+//                    + i + ": " + pageContent);
+//        }
+//
+//        String[] lines = pageContent.split("\n");
+//        System.out.println("line 1: " + lines[1].substring(15));
+//
+//        //Close the PdfReader.
+//        pdfReader.close();
 
 
     }

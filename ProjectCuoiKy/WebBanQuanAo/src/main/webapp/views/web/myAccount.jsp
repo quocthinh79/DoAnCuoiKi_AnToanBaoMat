@@ -219,11 +219,10 @@
                                           enctype="multipart/form-data">
                                         <fieldset>
                                             <legend>Upload hóa đơn của bạn</legend>
-                                            <div class="form-group ">
+                                            <div class="form-group required">
                                                 <label class="col-sm-2 control-label">Hóa đơn</label>
                                                 <div class="col-sm-10">
                                                     <input name="file_pdf" id="pdf_file" class="form-control"
-                                                           multiple
                                                            type="file"
                                                            accept=".pdf"
                                                            placeholder="Chọn hóa đơn cần xác thực" required>
@@ -233,7 +232,7 @@
                                                 <label class="col-sm-2 control-label">Private key</label>
                                                 <div class="col-sm-10">
                                                     <input name="private_key" id="private_key" class="form-control"
-                                                           multiple
+                                                           accept=".bin"
                                                            type="file"
                                                            placeholder="Chọn private key" required>
                                                 </div>
