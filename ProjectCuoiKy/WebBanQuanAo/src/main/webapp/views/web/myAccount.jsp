@@ -169,6 +169,103 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFour">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        Tạo key mới
+                                        <i class="fa fa-caret-down"></i></a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
+                                <div class="easy2">
+                                    <form class="form-horizontal" action="/WebBanQuanAo/GenerateKeyController"
+                                          method="post">
+                                        <fieldset>
+                                            <legend>Mật khẩu của bạn</legend>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">Mật khẩu</label>
+                                                <div class="col-sm-10">
+                                                    <input name="pass-generate-key" class="form-control" type="password"
+                                                           placeholder="Mật khẩu">
+                                                    <span class="form-error text-red mt-16">${requestScope.error}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="buttons clearfix">
+                                            <div class="pull-right">
+                                                <input class="btn btn-primary ce5" type="submit" value="Tạo key">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFive">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        Xác nhận hóa đơn
+                                        <i class="fa fa-caret-down"></i></a>
+                                </h4>
+                            </div>
+                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
+                                <div class="easy2">
+                                    <form class="form-horizontal" action="/" method="post"
+                                          enctype='multipart/form-data'>
+                                        <fieldset>
+                                            <legend>Upload hóa đơn của bạn</legend>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">Hóa đơn</label>
+                                                <div class="col-sm-10">
+                                                    <input name="file_pdf" id="pdf_file" class="form-control"
+                                                           type="file"
+                                                           accept=".pdf"
+                                                           placeholder="Chọn hóa đơn cần xác thực">
+                                                </div>
+                                            </div>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label">Private key</label>
+                                                <div class="col-sm-10">
+                                                    <input name="private_key" id="private_key" class="form-control"
+                                                           type="file"
+                                                           placeholder="Chọn private key">
+                                                </div>
+                                            </div>
+                                            <textarea id="txt-pdf" rows="7" style="display: none"></textarea>
+                                            <textarea id="txt-privateKey" rows="7" style="display: none"></textarea>
+                                            <script type="text/javascript">
+                                                document.getElementById('pdf_file').addEventListener('change', function (event) {
+                                                    const fr = new FileReader();
+                                                    fr.onload = function () {
+                                                        $("#txt-pdf").val(fr.result);
+                                                    }
+                                                    fr.readAsText(this.files[0]);
+                                                })
+
+                                                document.getElementById('private_key').addEventListener('change', function (event) {
+                                                    const fr = new FileReader();
+                                                    fr.onload = function () {
+                                                        $("#txt-privateKey").val(fr.result);
+                                                    }
+                                                    fr.readAsText(this.files[0]);
+                                                })
+                                            </script>
+                                        </fieldset>
+                                        <div class="buttons clearfix">
+                                            <div class="pull-right">
+                                                <input class="btn btn-primary ce5" onclick="verify()" value="Kiểm tra">
+                                            </div>
+                                        </div>
+                                        <input name="action" id="action" value="" style="display: none">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,5 +273,7 @@
     </div>
 </section>
 <!-- my account content section end -->
+<script src='<c:url value="/assets/js/xacthuc.js"/>'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 </html>
