@@ -1,5 +1,11 @@
 package cipher;
 
+import Dao.AccountDao;
+import Dao.VerifyDao;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
@@ -272,21 +278,42 @@ public class DSA {
     }
 
     public static void main(String[] args) throws Exception {
-        String str = "ThangcThinh";
-        DSA DSA = new DSA();
-        byte[] data = str.getBytes();
-
-//        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
-//        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+//        String str = "ThangcThinh";
+//        DSA DSA = new DSA();
+//        byte[] data = str.getBytes();
 //
-//        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/privateKey.bin"));
-//        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/publicKey.bin"));
+////        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "privateKey.bin");
+////        ReadAndWriteFile.getInstance().writeKeyToFile(DSA.byteToString(DSA.getPrivateKey().getEncoded()), "publicKey.bin");
+////
+////        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/privateKey.bin"));
+////        DSA.setPrivateKeyFromText(ReadAndWriteFile.getInstance().readKeyFromFile("src/main/java/cipher/publicKey.bin"));
+//
+//        // có chữ ký
+//        byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
+//
+////       xác thực chữ ký
+//        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
+//        System.out.println(verify);
 
-        // có chữ ký
-        byte[] signature = DSA.createDigitalSignature(data, DSA.getPrivateKey());
+        PdfReader pdfReader = new PdfReader("E:\\CompletePDF.pdf");
+        int pages = pdfReader.getNumberOfPages();
+        String pageContent = "";
+        for(int i=1; i<=pages; i++) {
+            //Extract the page content using PdfTextExtractor.
+            pageContent =
+                    PdfTextExtractor.getTextFromPage(pdfReader, i);
 
-//       xác thực chữ ký
-        boolean verify = DSA.verifyDigitalSignature(data, signature, DSA.getPublicKey());
-        System.out.println(verify);
+            //Print the page content on console.
+            System.out.println("Content on Page "
+                    + i + ": " + pageContent);
+        }
+
+        String[] lines = pageContent.split("\n");
+        System.out.println("line 1: " + lines[1].substring(15));
+
+        //Close the PdfReader.
+        pdfReader.close();
+
+
     }
 }

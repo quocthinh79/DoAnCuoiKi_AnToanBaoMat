@@ -13,8 +13,8 @@ import java.io.Serializable;
 import java.util.Properties;
 
 public class SendMailService implements Serializable {
-    private static final String username = "19130172@st.hcmuaf.edu.vn";
-    private static final String password = "ncp.liar.204";
+    private static final String username = "19130169@st.hcmuaf.edu.vn";
+    private static final String password = "nhom4atbm";
 
     public SendMailService() {
     }
