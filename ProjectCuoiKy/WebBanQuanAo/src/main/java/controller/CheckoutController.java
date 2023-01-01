@@ -6,6 +6,7 @@ import Beans.OrderInfor;
 import Dao.AccountDao;
 import Dao.CartDao;
 import Dao.PaymentDao;
+import Dao.VerifyDao;
 import Services.CartService;
 import Services.SendMailService;
 import cipher.DSA;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -128,6 +130,9 @@ public class CheckoutController extends HttpServlet {
                     pw.flush();
                     String realPfx = request.getServletContext().getRealPath("/assets/certificate.pfx");
                     DigitallySignPDF.signToPdf(realPfx, realPath, orderInfor);
+
+                    String hashingcode = MD5.MD5File(new File(realPath));
+                    VerifyDao.addHashing(userAccount,orderInfor.getId(),hashingcode);
                 } else {
                     pw.println(-1);
                     pw.flush();

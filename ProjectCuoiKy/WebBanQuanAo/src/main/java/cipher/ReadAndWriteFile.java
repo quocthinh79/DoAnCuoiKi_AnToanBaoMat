@@ -38,7 +38,7 @@ public class ReadAndWriteFile {
         return true;
     }
 
-    public String readKeyFromFile(String path) {
+    public static String readKeyFromFile(String path) {
         File file = new File(path);
         String result = "";
         try {

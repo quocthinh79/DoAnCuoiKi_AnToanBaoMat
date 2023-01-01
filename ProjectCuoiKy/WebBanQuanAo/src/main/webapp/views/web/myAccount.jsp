@@ -215,25 +215,27 @@
                             <div id="collapseFive" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingFour" aria-expanded="false" style="height: 0px;">
                                 <div class="easy2">
-                                    <form class="form-horizontal" action="/" method="post"
-                                          enctype='multipart/form-data'>
+                                    <form class="form-horizontal" action="my-account" method="post"
+                                          enctype="multipart/form-data">
                                         <fieldset>
                                             <legend>Upload hóa đơn của bạn</legend>
-                                            <div class="form-group required">
+                                            <div class="form-group ">
                                                 <label class="col-sm-2 control-label">Hóa đơn</label>
                                                 <div class="col-sm-10">
                                                     <input name="file_pdf" id="pdf_file" class="form-control"
+                                                           multiple
                                                            type="file"
                                                            accept=".pdf"
-                                                           placeholder="Chọn hóa đơn cần xác thực">
+                                                           placeholder="Chọn hóa đơn cần xác thực" required>
                                                 </div>
                                             </div>
                                             <div class="form-group required">
                                                 <label class="col-sm-2 control-label">Private key</label>
                                                 <div class="col-sm-10">
                                                     <input name="private_key" id="private_key" class="form-control"
+                                                           multiple
                                                            type="file"
-                                                           placeholder="Chọn private key">
+                                                           placeholder="Chọn private key" required>
                                                 </div>
                                             </div>
                                             <textarea id="txt-pdf" rows="7" style="display: none"></textarea>
@@ -258,10 +260,10 @@
                                         </fieldset>
                                         <div class="buttons clearfix">
                                             <div class="pull-right">
-                                                <input class="btn btn-primary ce5" onclick="verify()" value="Kiểm tra">
+                                                <input class="btn btn-primary ce5" type="submit" value="Kiểm tra">
                                             </div>
                                         </div>
-                                        <input name="action" id="action" value="" style="display: none">
+                                        <input name="action" id="action" value="verify" style="display: none">
                                     </form>
                                 </div>
                             </div>
