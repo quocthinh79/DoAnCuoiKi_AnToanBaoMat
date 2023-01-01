@@ -1,6 +1,7 @@
 package cipher;
 
 import Dao.AccountDao;
+import Dao.VerifyDao;
 import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
@@ -318,5 +319,7 @@ public class DSA {
         String hash = "MIIDQjCCAjUGByqGSM44BAEwggIoAoIBAQCPeTXZuarpv6vtiHrPSVG28y7FnjuvNxjo6sSWHz79NgbnQ1GpxBgzObgJ58KuHFObp0dbhdARrbi0eYd1SYRpXKwOjxSzNggooi/6JxEKPWKpk0U0CaD+aWxGWPhL3SCBnDcJoBBXsZWtzQAjPbpUhLYpH51kjviDRIZ3l5zsBLQ0pqwudemYXeI9sCkvwRGMn/qdgYHnM423krcw17njSVkvaAmYchU5Feo9a4tGU8YzRY+AOzKkwuDycpAlbk4/ijsIOKHEUOThjBopo33fXqFD3ktm/wSQPtXPFiPhWNSHxgjpfyEc2B3KI8tuOAdl+CLjQr5ITAV2OTlgHNZnAh0AuvaWpoV499/e5/pnyXfHhe8ysjO65YDAvNVpXQKCAQAWplxYIEhQcE51AqOXVwQNNNo6NHjBVNTkpcAtJC7gT5bmHkvQkEq9rI837rHgnzGC0jyQQ8tkL4gAQWDt+coJsyB2p5wypifyRz6Rh5uixOdEvSCBVEy1W4AsNo0fqD7UielOD6BojjJCilx4xHjGjQUntxyaOrsLC+EsRGiWOefTznTbEBplqiuH9kxoJts+xy9LVZmDS7TtsC98kOmkltOlXVNb6/xF1PYZ9j897buHOSXC8iTgdzEpbaiH7B5HSPh++1/et1SEMWsiMt7lU92vAhErDR8C2jCXMiT+J67ai51LKSLZuovjntnhA6Y8UoELxoi34u1DFuHvF9veA4IBBQACggEAIxXQUWmpvbqBNmLtxGl56hPbtKFGr1XnIJnrUH55XrHDoijL/DqzBd0R3no3skUgL0xeVHtCYOAb8ZvtyS2tMntbIolJcEVj02xexvmtPOfd3qBkQrOKlZiHu6WaWT/6+qmMebuOpSQiaq5OP6pUGEOYd1P/xEZAu0cOXQzs4CH/m6/q388FiBKUcDj3vJ/hL8/ZslrIdTafsHwQPlUYjUzC3Xtw1kvPKZvMbWiYTdDmAOf7wZq67C8uJAeUrGz1teTQ9ukFYfDZ57MZzFTdo//DZH0joQ905tKd/absx7zJFk5V2c01n5/yHTtt1foDG4j35+OscZYyPgaeKL5P/g==";
         System.out.println(pubKey == hash);
         System.out.println(pubKey.equals(hash));
+
+        System.out.println(VerifyDao.findHashCode("admin",1));;
     }
 }

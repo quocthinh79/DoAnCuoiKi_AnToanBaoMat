@@ -1,7 +1,11 @@
 package controller;
 
+import Dao.AccountDao;
+import Dao.VerifyDao;
 import cipher.DSA;
 import cipher.MD5;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,7 +41,15 @@ public class MyAccountController extends HttpServlet {
         switch (action) {
             case "verify":
                 String privateKey = request.getParameter("privateKey");
-                String txtPDF = request.getParameter("pdf");
+                String PDFpath = request.getParameter("pdf");
+                String userAccount = request.getParameter("userAccount");
+
+// lấy nội dung từ hóa đơn
+                PdfReader pdfReader = new PdfReader(PDFpath);
+                String txtPDF = PdfTextExtractor.getTextFromPage(pdfReader, 1);
+                String[] lines = txtPDF.split("\n");
+                int orderId = Integer.parseInt(lines[1].substring(15));
+                pdfReader.close();
 
 //              Set private key cho DSA
                 DSA dsa = new DSA();
@@ -55,6 +67,19 @@ public class MyAccountController extends HttpServlet {
                 byte[] signature;
                 try {
                     signature = DSA.createDigitalSignature(dataByte, dsa.getPrivateKey());
+
+// dùng publickey của người dùng giải mã signature
+                    String publicKey = AccountDao.getPublicKeyByUser(userAccount);
+                    dsa.setPublicKeyFromText(publicKey);
+                    String verifyHash = dsa.decrypt(signature);
+
+// so sánh mã hash của hóa đơn do người dùng gửi lên với mã hash được lưu trữ trên database
+                    String dbhashing = VerifyDao.findHashCode(userAccount,orderId);
+                    if (dbhashing.equals(verifyHash)){
+                        pw.println("xac thuc thanh cong");
+                        pw.flush();
+                    }
+
                 } catch (Exception e) {
                     pw.println(-1);
                     pw.flush();
