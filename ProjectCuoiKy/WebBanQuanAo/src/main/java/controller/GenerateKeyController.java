@@ -30,7 +30,7 @@ public class GenerateKeyController extends HttpServlet {
         String username = account1.getUserName();
         String pw = request.getParameter("pass-generate-key");
         Account checkAcc = AccountServices.getAccount(username, pw, true);
-
+        String message = "";
         if (checkAcc != null) {
             DSA dsa = new DSA();
             String privateKey = dsa.byteToString(dsa.getPrivateKey().getEncoded());
@@ -43,15 +43,12 @@ public class GenerateKeyController extends HttpServlet {
             String messagesenmail = "Day la khoa cua ban.Vui long khong chia se cho nguoi khac";
             boolean sendsuccess = SendMailService.sendMailwithFile(email, "Private Key ", messagesenmail, keyPath);
             System.out.println("send mail to " + email + " " + sendsuccess);
+            message = "Đã cập nhật key mới, vui lòng kiểm tra email đăng ký tài khoản của bạn!";
         } else {
+            message = "Sai mật khẩu! Vui lòng kiểm tra lại";
             request.setAttribute("error", "Sai mật khẩu");
             System.out.println("Sai tài khoản");
         }
-//        request.setAttribute("pageName", "Tài khoản");
-//        RequestDispatcher rd = request.getRequestDispatcher("/views/web/myAccount.jsp");
-//        rd.forward(request, response);
-
-        String message = "Đã cập nhật key mới, vui lòng kiểm tra email đăng ký tài khoản của bạn!";
         request.setAttribute("message", message);
         request.setAttribute("pageName", "Thông báo");
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/notification.jsp");
